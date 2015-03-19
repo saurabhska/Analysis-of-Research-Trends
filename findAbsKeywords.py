@@ -38,10 +38,12 @@ def mapAbsWithKeywords(outputFile):
   for absId,absNounList in AbsIDNounDict.items():
      absKeywordList=getAbsKeywords(absNounList)
      #list(set(absKeywordList))
-     if absKeywordList != []:
+     for keyword in absKeywordList:
+       keyword.replace("\n","")
+       keyword.strip()
        outfile.write(absId)
-       outfile.write("\t")
-       outfile.write(str(absKeywordList).replace("[","").replace("]",""))
+       outfile.write(",")
+       outfile.write(keyword)
        outfile.write("\n")
   
 
