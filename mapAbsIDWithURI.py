@@ -17,7 +17,7 @@ def getDocumentURIs(dataFile):
     print('reading abstract...'+str(i))
     if  'hasAbstractPart.text' in dataList[i]['fields']:
       absIDURIDict[dataList[i]['_id']]=dataList[i]['fields']['uri'][0]
-  return absIDURIDict
+  #return absIDURIDict
   
 def mapIDUri(absIDKeywordFile,outputFile):
   global absIDURIDict
@@ -28,27 +28,26 @@ def mapIDUri(absIDKeywordFile,outputFile):
   for line in lines:
     line=line.strip()
     line=line.replace("\n","")
-    words=line.split("\t")
-    keywords=words[1].split(',')
-    for keyword in keywords:
-      keyword.strip()
-      printString=absIDURIDict[words[0]]+','+keyword
-      outfile.write(printString)
-      outfile.write("\n")
+    absID=line.split(",")[0]
+    keyword=line.split(",")[1]
+    keyword=keyword.strip()
+    printString=absIDURIDict[absID]+','+keyword
+    outfile.write(printString)
+    outfile.write("\n")
   outfile.close()
   
 def main():
   global absIDURIDict
   #Check for proper arguments
   if len(sys.argv) != 4:
-    print ('usage: python3 findNounInText.py data-corpus-file absID-keyword-file output-file')
+    print ('usage: python3 mapAbsIDWithURI.py dataFile absIDKeywordFile outputFile')
     sys.exit(1)
   #Scan inputs
   dataFile = sys.argv[1]
   absIDKeywordFile = sys.argv[2]
   outputFile = sys.argv[3]
   #Get all abstracts from data corpus
-  absIDURIDict=getDocumentURIs(dataFile)
+  getDocumentURIs(dataFile)
   mapIDUri(absIDKeywordFile,outputFile)
   #Get Noun list
   #absIdNounDict=getAbsNouns(absIdTextDict)
